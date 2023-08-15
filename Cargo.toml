@@ -1,6 +1,6 @@
 [package]
 name = "nu_plugin_charset"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Horasal"]
 description = "A nushell plugin for converting charsets."

@@ -108,13 +108,13 @@ impl Plugin for Charset {
                 let encoding = encoding_rs::Encoding::for_label(label.as_bytes());
                 match encoding {
                     Some(e) => {
-                        let input = input.as_binary()?;
-                        let (s, _, has_error) = e.decode(input);
+                        let input_buf = input.as_binary()?;
+                        let (s, _, has_error) = e.decode(input_buf);
                         if has_error {
                             Err(LabeledError {
                                 label: "invalid input".into(),
                                 msg: format!("input is an invalid {} string ", label),
-                                span: Some(call.head),
+                                span: Some(input.span().unwrap_or(call.head)),
                             })
                         } else {
                             Ok(Value::String {
@@ -138,13 +138,13 @@ impl Plugin for Charset {
                 let encoding = encoding_rs::Encoding::for_label(label.as_bytes());
                 match encoding {
                     Some(e) => {
-                        let input = input.as_string()?;
-                        let (s, _, has_error) = e.encode(&input);
+                        let input_buf = input.as_string()?;
+                        let (s, _, has_error) = e.encode(&input_buf);
                         if has_error {
                             Err(LabeledError {
                                 label: "invalid input".into(),
                                 msg: format!("input is an invalid {} string ", label),
-                                span: Some(call.head),
+                                span: Some(input.span().unwrap_or(call.head)),
                             })
                         } else {
                             Ok(Value::Binary {
