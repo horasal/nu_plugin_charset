@@ -165,7 +165,7 @@ impl Plugin for Charset {
             }
             _ => Err(LabeledError {
                 label: "Plugin call with wrong name signature".into(),
-                msg: "Plugin command should be one of decode, encode, list".into(),
+                msg: "Plugin command should be one of decode, encode".into(),
                 span: Some(call.head),
             }),
         }
