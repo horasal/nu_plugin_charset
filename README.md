@@ -1,5 +1,12 @@
 A [nushell](https://www.nushell.sh) plugin for converting charsets.
 
+### Installation
+
+```bash
+cargo install nu_plugin_charset
+register ~/.cargo/bin/nu_plugin_charset
+```
+
 ### Usage
 
 * Use `charset` to detect charset of input.
