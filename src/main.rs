@@ -99,10 +99,10 @@ impl Plugin for Charset {
                 let charset_name: Option<String> = call.opt(0)?;
                 let label = match charset_name {
                     Some(c) => c,
-                    None => {
-                        let (charset, ..) = chardet::detect(input.as_binary()?);
-                        charset
-                    }
+                    None => charset::detect_encoding_name(
+                        input.span().unwrap_or(call.head),
+                        input.as_binary()?,
+                    )?,
                 };
 
                 let encoding = encoding_rs::Encoding::for_label(label.as_bytes());
@@ -125,7 +125,7 @@ impl Plugin for Charset {
                     }
                     None => Err(LabeledError {
                         label: "Unknown encoding".into(),
-                        msg: format!("Unknown encoding"),
+                        msg: "Unknown encoding".into(),
                         span: match call.positional.first().and_then(|v| v.span().ok()) {
                             Some(v) => Some(v),
                             None => Some(call.head),
@@ -155,7 +155,7 @@ impl Plugin for Charset {
                     }
                     None => Err(LabeledError {
                         label: "Unknown encoding".into(),
-                        msg: format!("Unknown encoding"),
+                        msg: "Unknown encoding".into(),
                         span: match call.positional.first().and_then(|v| v.span().ok()) {
                             Some(v) => Some(v),
                             None => Some(call.head),
